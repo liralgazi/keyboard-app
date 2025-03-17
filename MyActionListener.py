@@ -7,17 +7,8 @@ class MyActionListener:
         if action not in self.listeners:
             # If the action does not exist- Create a new list for the action
             self.listeners[action] = []  
-
         # If the action already exists, the new listener is added to the list.
-        self.listeners[action].append(listener)  # Add the listener function
-
-    def trigger_action(self, action, *args, **kwargs):
-        if action in self.listeners:
-            for listener in self.listeners[action]:
-                # Call each listener function with arguments
-                listener(*args, **kwargs)  
-        else:
-            print(f"No listeners registered for action: {action}")
+        self.listeners[action].append(listener)  
 
     def remove_listener(self, action):
         if action in self.listeners:
@@ -25,9 +16,24 @@ class MyActionListener:
             del self.listeners[action] 
 
     def emit(self, action, data):
+        # If the action is not registered, it raises an exception.
         if action not in self.listeners:
             raise Exception(f"Action '{action}' is not registered.")
 
         for listener in self.listeners[action]:
-            # Call each listener with the provided data
+            # Call each listener function with the provided data
             listener(data)  
+
+
+# Create an instance
+action_listener = MyActionListener()
+
+# Add a listener to the action "PRINT"
+action_listener.register_listener("PRINT", lambda data: print(f"Don't tell me what I {data} or {data}'t do"))
+
+# Add another listener for the action "PRINT"
+action_listener.register_listener("PRINT", lambda data: print(f"I eat pickles right off the {data}"))
+
+# Emit the "PRINT" action with the word "can"
+print("\nEmitting 'PRINT' action:")
+action_listener.emit("PRINT", "can")
