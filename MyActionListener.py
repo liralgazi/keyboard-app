@@ -24,7 +24,7 @@ class MyActionListener:
             # Call each listener function with the provided data
             listener(data)  
 
-
+'''
 # Create an instance
 action_listener = MyActionListener()
 
@@ -37,3 +37,29 @@ action_listener.register_listener("PRINT", lambda data: print(f"I eat pickles ri
 # Emit the "PRINT" action with the word "can"
 print("\nEmitting 'PRINT' action:")
 action_listener.emit("PRINT", "can")
+'''
+
+# Call the constructor
+action_listener = MyActionListener()
+
+# Add listener to the action "PRINT"
+action_listener.register_listener("PRINT", lambda data: print(f"Don't tell me what I {data} or {data}'t do"))
+
+# Add another listener for the action "PRINT"
+action_listener.register_listener("PRINT", lambda data: print(f"I eat pickles right off the {data}"))
+
+# Execute all listeners with the data provided
+print("\nEmitting 'PRINT' action:")
+action_listener.emit("PRINT", "Can")
+
+# Remove all listeners assigned to the action
+print("\nRemoving 'PRINT' action listeners...")
+action_listener.remove_listener("PRINT")
+
+# Execute an unregistered action should result in an error
+print("\nTrying to emit 'PRINT' action again:")
+try:
+    action_listener.emit("PRINT", "Can")
+except Exception as e:
+    print(f"Error: {e}") 
+
