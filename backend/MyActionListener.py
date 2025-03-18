@@ -1,3 +1,9 @@
+from fastapi import FastAPI
+from pydantic import BaseModel
+from typing import Dict, List, Callable
+
+app = FastAPI()
+
 class MyActionListener:
     def __init__(self):
         # store action listeners
@@ -24,6 +30,24 @@ class MyActionListener:
             # Call each listener function with the provided data
             listener(data)  
 
+# Create an instance
+action_listener = MyActionListener()
+
+# JSON model for requests
+class EventRequest(BaseModel):
+    action: str
+    data: str
+
+# Register API to emit events
+@app.post("/emit")
+async def emit_event(event: EventRequest):
+    try:
+        action_listener.emit(event.action, event.data)
+        return {"message": f"Action '{event.action}' executed successfully"}
+    except ValueError as e:
+        return {"error": str(e)}
+
+'''
 # Call the constructor
 action_listener = MyActionListener()
 
@@ -47,4 +71,4 @@ try:
     action_listener.emit("PRINT", "Can")
 except Exception as e:
     print(f"Error: {e}") 
-
+'''
