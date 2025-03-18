@@ -24,21 +24,6 @@ class MyActionListener:
             # Call each listener function with the provided data
             listener(data)  
 
-'''
-# Create an instance
-action_listener = MyActionListener()
-
-# Add a listener to the action "PRINT"
-action_listener.register_listener("PRINT", lambda data: print(f"Don't tell me what I {data} or {data}'t do"))
-
-# Add another listener for the action "PRINT"
-action_listener.register_listener("PRINT", lambda data: print(f"I eat pickles right off the {data}"))
-
-# Emit the "PRINT" action with the word "can"
-print("\nEmitting 'PRINT' action:")
-action_listener.emit("PRINT", "can")
-'''
-
 # Call the constructor
 action_listener = MyActionListener()
 
