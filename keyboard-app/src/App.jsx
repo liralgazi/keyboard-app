@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import WordBox from "./components/CharBox";
+import CharBox from "./components/CharBox";
 import Keyboard from "./components/Keyboard";
 import "./styles.css";
 
@@ -21,6 +21,7 @@ const App = () => {
     }
   };
 
+  /*
   const handleEnter = async () => {
     if (letters.length === MAX_LETTERS) {
       const word = letters.join("");
@@ -37,9 +38,41 @@ const App = () => {
       .catch(() => false);
   };
 
+  */
+  
+  const handleEnter = async () => {
+    if (letters.length === MAX_LETTERS) {
+      const word = letters.join("");
+  
+      try {
+        const response = await fetch("http://localhost:8000/emit", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json",
+          },
+          body: JSON.stringify({ action: "CHECK_WORD", data: word }),
+          mode: "cors",  
+        });
+  
+        if (!response.ok) {
+          throw new Error(`Failed to fetch: ${response.status}`);
+        }
+  
+        const result = await response.json();
+        setBorderColor(result.valid ? "green" : "red");  
+      } catch (error) {
+        console.error("CORS Fetch Error:", error);
+        setBorderColor("red");
+      }
+    } else {
+      setBorderColor("red");
+    }
+  };
+
   return (
     <div className="game-container">
-      <WordBox letters={letters} borderColor={borderColor} maxLetters={MAX_LETTERS} />
+      <CharBox letters={letters} borderColor={borderColor} maxLetters={MAX_LETTERS} />
       <Keyboard
         onCharacterClick={handleCharacterClick}
         onBackspace={handleBackspace}

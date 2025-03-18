@@ -1,8 +1,19 @@
+import requests
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from typing import Dict, List, Callable
+from fastapi.responses import JSONResponse
+
 
 app = FastAPI()
+# Enable CORS (Allow frontend to talk to backend)
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["*"],  
+    allow_credentials=True,
+    allow_methods=["*"],  
+    allow_headers=["*"],  
+)
 
 class MyActionListener:
     def __init__(self):
@@ -33,19 +44,43 @@ class MyActionListener:
 # Create an instance
 action_listener = MyActionListener()
 
-# JSON model for requests
+# JSON model for requests - validates it 
 class EventRequest(BaseModel):
     action: str
     data: str
+
+# Define a function that checks if the word exists in a dictionary API
+def check_word_in_dictionary(word):
+    try:
+        # using API to check if the given word exists in the English Dictionary 
+        response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
+        return response.status_code == 200
+    except Exception:
+        return False
+
+# Register a listener for "CHECK_WORD" that verifies the word
+def validate_word_listener(word):
+    is_valid = check_word_in_dictionary(word)
+    # debug
+    print(f"Word '{word}' is {'valid' if is_valid else 'invalid'}.")  
+    return is_valid 
+
+# Register the listener
+action_listener.register_listener("CHECK_WORD", validate_word_listener)
 
 # Register API to emit events
 @app.post("/emit")
 async def emit_event(event: EventRequest):
     try:
+        # Run all the functions registered to the action with the given data
         action_listener.emit(event.action, event.data)
-        return {"message": f"Action '{event.action}' executed successfully"}
-    except ValueError as e:
-        return {"error": str(e)}
+        # check if the worfd is valid 
+        is_valid = check_word_in_dictionary(event.data)
+        headers = {"Access-Control-Allow-Origin": "*"}
+        return JSONResponse(content={"valid": is_valid}, headers=headers)
+    except Exception as e:
+        headers = {"Access-Control-Allow-Origin": "*"}
+        return JSONResponse(content={"error": str(e)}, status_code=400, headers=headers)
 
 '''
 # Call the constructor
