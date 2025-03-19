@@ -49,7 +49,7 @@ const App = () => {
         const response = await fetch("http://localhost:8000/emit", {
           method: "POST",
           headers: {
-            // Ensures JSON data is sent
+            // tells the backend the the req body is JSON 
             "Content-Type": "application/json", 
           },
           body: JSON.stringify({ action: "CHECK_WORD", data: word }),
