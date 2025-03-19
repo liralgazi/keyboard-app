@@ -77,6 +77,7 @@ const App = () => {
 
   return (
     <div className="game-container">
+      <div className="h1">Enter your word here:</div>
       <CharBox letters={letters} borderColor={borderColor} maxLetters={MAX_LETTERS} />
       <Keyboard
         onCharacterClick={handleCharacterClick}
