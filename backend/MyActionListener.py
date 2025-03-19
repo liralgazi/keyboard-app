@@ -62,16 +62,6 @@ def check_word_in_dictionary(word):
         print(f"ERROR in check_word_in_dictionary: {e}")
         return False
 
-# Register a listener for "CHECK_WORD" that verifies the word
-def validate_word_listener(word):
-    is_valid = check_word_in_dictionary(word)
-    # debug
-    print(f"Word '{word}' is {'valid' if is_valid else 'invalid'}.")  
-    return is_valid 
-
-# Register the listener
-action_listener.register_listener("CHECK_WORD", validate_word_listener)
-
 # Register API to emit events
 @app.post("/emit")
 async def emit_event(event: EventRequest):
@@ -79,7 +69,7 @@ async def emit_event(event: EventRequest):
         # Log the API request
         print(f"Received Request: action={event.action}, data={event.data}")  
         # cheking word validation using the dictionary API
-        is_valid = check_word_in_dictionary(event.data)
+        is_valid = check_word_in_dictionary(event.data) 
         print(f"Word Check Result: {is_valid}")  
         # Return the result as a JSON response 
         return JSONResponse(content={"valid": is_valid})
