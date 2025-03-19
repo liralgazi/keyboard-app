@@ -40,7 +40,7 @@
 .keyboard {
   display: grid;
   grid-template-columns: repeat(10, minmax(40px, 1fr)); 
-  gap: 5px;
+  gap: 10px;
   justify-content: center;
   width: 90%; 
   max-width: 800px; 
@@ -60,6 +60,7 @@ button {
 
 button:hover {
   background-color: #ddd;
+  border-color: #f8a5c2;
 }
 
 .backspace, .enter {
