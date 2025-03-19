@@ -45,14 +45,14 @@ const App = () => {
       const word = letters.join("");
   
       try {
+        // Send the word to the backend for validation
         const response = await fetch("http://localhost:8000/emit", {
           method: "POST",
           headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json",
+            // Ensures JSON data is sent
+            "Content-Type": "application/json", 
           },
           body: JSON.stringify({ action: "CHECK_WORD", data: word }),
-          mode: "cors",  
         });
   
         if (!response.ok) {
@@ -60,16 +60,18 @@ const App = () => {
         }
   
         const result = await response.json();
-        // debug log 
-        console.log("API Response:", result);  
+        // Debug log to check the response
+        console.log("API Response:", result); 
   
-        setBorderColor(result.valid ? "green" : "red");  
+        // Set border color based on word validity
+        setBorderColor(result.valid ? "green" : "red");
       } catch (error) {
-        console.error("CORS Fetch Error:", error);
-        setBorderColor("red");
+        console.error("API Fetch Error:", error);
+        setBorderColor("red"); 
       }
     } else {
-      setBorderColor("red");
+      // still not valid 
+      setBorderColor("red"); 
     }
   };
 

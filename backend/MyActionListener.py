@@ -89,30 +89,19 @@ async def emit_event(event: EventRequest):
 async def emit_event(event: EventRequest):
     try:
         # Log the API request
-        print("/emit API was called!")  
         print(f"Received Request: action={event.action}, data={event.data}")  
 
-        # Perform the word check using the dictionary API
+        # cheking word validation using the dictionary API
         is_valid = check_word_in_dictionary(event.data)
-        print(f"🔍 Word Check Result: {is_valid}")  
+        print(f"Word Check Result: {is_valid}")  
 
         # Return the result as a JSON response with CORS headers
-        headers = {
-            "Access-Control-Allow-Origin": "*", 
-            "Access-Control-Allow-Methods": "POST, OPTIONS",  
-            "Access-Control-Allow-Headers": "*",  
-        }
-        return JSONResponse(content={"valid": is_valid}, headers=headers)
+        return JSONResponse(content={"valid": is_valid})
 
     except Exception as e:
         # Log the error
-        print(f"🔥 ERROR in FastAPI: {e}")  
-        headers = {
-            "Access-Control-Allow-Origin": "*",  
-            "Access-Control-Allow-Methods": "POST, OPTIONS",
-            "Access-Control-Allow-Headers": "*",
-        }
-        return JSONResponse(content={"error": str(e)}, status_code=500, headers=headers)
+        print(f"ERROR: {e}")  
+        return JSONResponse(content={"error": str(e)}, status_code=500)
 
 '''
 # Call the constructor
