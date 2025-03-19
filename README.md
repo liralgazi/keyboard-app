@@ -40,7 +40,7 @@ uvicorn MyActionListener:app --reload
 ```
 ### 3️⃣ Start the Frontend (React)
 ```sh
-cd frontend
+cd keyboard-app
 npm install
 npm run dev
 ```
