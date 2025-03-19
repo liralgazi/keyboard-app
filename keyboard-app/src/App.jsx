@@ -60,6 +60,9 @@ const App = () => {
         }
   
         const result = await response.json();
+        // debug log 
+        console.log("API Response:", result);  
+  
         setBorderColor(result.valid ? "green" : "red");  
       } catch (error) {
         console.error("CORS Fetch Error:", error);

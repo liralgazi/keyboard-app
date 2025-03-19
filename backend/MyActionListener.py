@@ -4,8 +4,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from fastapi.responses import JSONResponse
 
-
 app = FastAPI()
+
 # Enable CORS (Allow frontend to talk to backend)
 app.add_middleware(
     CORSMiddleware,
@@ -14,6 +14,7 @@ app.add_middleware(
     allow_methods=["*"],  
     allow_headers=["*"],  
 )
+
 
 class MyActionListener:
     def __init__(self):
@@ -52,10 +53,13 @@ class EventRequest(BaseModel):
 # Define a function that checks if the word exists in a dictionary API
 def check_word_in_dictionary(word):
     try:
+        # debug log
+        print(f"Checking word: {word}") 
         # using API to check if the given word exists in the English Dictionary 
         response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
         return response.status_code == 200
-    except Exception:
+    except Exception as e:        
+        print(f"ERROR in check_word_in_dictionary: {e}")
         return False
 
 # Register a listener for "CHECK_WORD" that verifies the word
@@ -67,7 +71,7 @@ def validate_word_listener(word):
 
 # Register the listener
 action_listener.register_listener("CHECK_WORD", validate_word_listener)
-
+'''
 # Register API to emit events
 @app.post("/emit")
 async def emit_event(event: EventRequest):
@@ -76,11 +80,39 @@ async def emit_event(event: EventRequest):
         action_listener.emit(event.action, event.data)
         # check if the worfd is valid 
         is_valid = check_word_in_dictionary(event.data)
-        headers = {"Access-Control-Allow-Origin": "*"}
-        return JSONResponse(content={"valid": is_valid}, headers=headers)
+        return JSONResponse(content={"valid": is_valid})
     except Exception as e:
-        headers = {"Access-Control-Allow-Origin": "*"}
-        return JSONResponse(content={"error": str(e)}, status_code=400, headers=headers)
+        return JSONResponse(content={"error": str(e)}, status_code=400)
+'''
+
+@app.post("/emit")
+async def emit_event(event: EventRequest):
+    try:
+        # Log the API request
+        print("/emit API was called!")  
+        print(f"Received Request: action={event.action}, data={event.data}")  
+
+        # Perform the word check using the dictionary API
+        is_valid = check_word_in_dictionary(event.data)
+        print(f"🔍 Word Check Result: {is_valid}")  
+
+        # Return the result as a JSON response with CORS headers
+        headers = {
+            "Access-Control-Allow-Origin": "*", 
+            "Access-Control-Allow-Methods": "POST, OPTIONS",  
+            "Access-Control-Allow-Headers": "*",  
+        }
+        return JSONResponse(content={"valid": is_valid}, headers=headers)
+
+    except Exception as e:
+        # Log the error
+        print(f"🔥 ERROR in FastAPI: {e}")  
+        headers = {
+            "Access-Control-Allow-Origin": "*",  
+            "Access-Control-Allow-Methods": "POST, OPTIONS",
+            "Access-Control-Allow-Headers": "*",
+        }
+        return JSONResponse(content={"error": str(e)}, status_code=500, headers=headers)
 
 '''
 # Call the constructor
