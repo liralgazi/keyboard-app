@@ -29,7 +29,7 @@ A simple interactive keyboard game where users enter words using an on-screen ke
 
 ### 1️⃣ Clone the Repository
 ```sh
-git clone https://github.com/YOUR_USERNAME/keyboard-app.git
+git clone https://github.com/keyboard-app/keyboard-app.git
 cd keyboard-app
 ```
 ### 2️⃣ Start the Backend (FastAPI)
