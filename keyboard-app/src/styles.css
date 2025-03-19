@@ -6,11 +6,14 @@
   height: 100vh; 
   gap: 20px;
   font-family: Arial, sans-serif;
+  text-align: center;
+  width: 100%;
 }
 
 .char-box {
   display: flex;
   gap: 10px;
+  justify-content: center;
 }
 
 .square {
@@ -28,21 +31,31 @@
 .keyboard-container {
   display: flex;
   justify-content: center; 
-  width: 100%; 
+  align-items: center;
+  width: 100%;
+  height: auto;
+  margin-top: 20px; 
 }
 
 .keyboard {
   display: grid;
-  grid-template-columns: repeat(10, 40px);
+  grid-template-columns: repeat(10, minmax(40px, 1fr)); 
   gap: 5px;
+  justify-content: center;
+  width: 90%; 
+  max-width: 800px; 
 }
-  
+
 button {
-  padding: 10px;
-  font-size: 16px;
+  padding: 15px; 
+  font-size: 18px;
   cursor: pointer;
   border: 1px solid #ccc;
   background-color: #eee;
+  text-align: center;
+  width: 100%;
+  height: 60px;
+  border-radius: 5px;
 }
 
 button:hover {
