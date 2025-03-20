@@ -42,7 +42,6 @@ class MyActionListener:
             # Call each listener function with the provided data
             listener(data)  
 
-# Create an instance
 action_listener = MyActionListener()
 
 # JSON model for requests - validates it 
@@ -53,7 +52,6 @@ class EventRequest(BaseModel):
 # Define a function that checks if the word exists in a dictionary API
 def check_word_in_dictionary(word):
     try:
-        # debug log
         print(f"Checking word: {word}") 
         # using API to check if the given word exists in the English Dictionary 
         response = requests.get(f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}")
@@ -66,7 +64,6 @@ def check_word_in_dictionary(word):
 @app.post("/emit")
 async def emit_event(event: EventRequest):
     try:
-        # Log the API request
         print(f"Received Request: action={event.action}, data={event.data}")  
         # cheking word validation using the dictionary API
         is_valid = check_word_in_dictionary(event.data) 
@@ -74,7 +71,6 @@ async def emit_event(event: EventRequest):
         # Return the result as a JSON response 
         return JSONResponse(content={"valid": is_valid})
     except Exception as e:
-        # Log the error
         print(f"ERROR: {e}")  
         return JSONResponse(content={"error": str(e)}, status_code=500)
 

@@ -60,7 +60,6 @@ const App = () => {
         }
   
         const result = await response.json();
-        // Debug log to check the response
         console.log("API Response:", result); 
   
         // Set border color based on word validity
