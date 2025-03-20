@@ -35,7 +35,7 @@ A simple interactive keyboard game where users enter words using an on-screen ke
 ### 1️⃣ Clone the Repository
 
 ```sh
-git clone https://github.com/YOUR_USERNAME/keyboard-app.git
+git clone https://github.com/liralgazi/keyboard-app.git
 cd keyboard-app
 ```
 
@@ -50,7 +50,7 @@ uvicorn MyActionListener:app --reload
 ### 3️⃣ Start the Frontend (React)
 
 ```sh
-cd frontend
+cd keyboard-app
 npm install
 npm run dev
 ```
