@@ -4,11 +4,11 @@ A simple interactive keyboard game where users enter words using an on-screen ke
 
 ## 🚀 Features
 
-- 🎹 **On-screen keyboard** that mimics a real keyboard layout.
-- 📝 **Word validation** using an online dictionary API.
-- 🎨 **Responsive UI** with a clean and intuitive design.
-- 🔥 **FastAPI backend** to handle API requests.
-- 🌍 **CORS-enabled** for seamless communication between frontend and backend.
+- **On-screen keyboard** that mimics a real keyboard layout.
+- **Word validation** using an online dictionary API.
+- **Responsive UI** with a clean and intuitive design.
+- **FastAPI backend** to handle API requests.
+- **CORS-enabled** for seamless communication between frontend and backend.
 
 ## 🖼️ Preview
 
